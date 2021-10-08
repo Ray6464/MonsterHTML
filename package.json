@@ -4,6 +4,7 @@
   "description": "A powerful html inspired programming language which compiles .phtml files to .html files. Its code in executed at compile time to modify the underlying markup. This is the compiler.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/Ray6464/MonsterHTML/issues"
   },
-  "homepage": "https://github.com/Ray6464/MonsterHTML#readme"
+  "homepage": "https://github.com/Ray6464/MonsterHTML#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "ray-flags": "^0.0.7",
+    "sucide": "^1.0.1",
+    "xml-reader": "^2.4.3"
+  }
 }
