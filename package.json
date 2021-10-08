@@ -1,0 +1,25 @@
+{
+  "name": "monsterhtml",
+  "version": "0.0.1",
+  "description": "A powerful html inspired programming language which compiles .phtml files to .html files. Its code in executed at compile time to modify the underlying markup. This is the compiler.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ray6464/MonsterHTML.git"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "javascript",
+    "bootstrap"
+  ],
+  "author": "ray voice",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ray6464/MonsterHTML/issues"
+  },
+  "homepage": "https://github.com/Ray6464/MonsterHTML#readme"
+}
