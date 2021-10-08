@@ -8,3 +8,5 @@ A compiler for powerful+html+css+markdown+latex. PHTML aka Powerfull-HTML is a t
 1. Built in engine to run code at compile time.
 2. Smaller files then other industry-standard (outdated and bloated) frameworks.
 3. Built in CSS like styling engine to run styling code at compile time.
+4. Bootstrap like UI/UX library with a large collection of objects.
+5. Suggest more features by contacting directly: rayvanet@gmail.com
