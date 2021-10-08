@@ -4,16 +4,17 @@ const { parseSync } = require('xml-reader');
 const flags = require('ray-flags');
 const { sucide } = require('sucide');
 
-console.log(flags);
-// # Flags Info
-// 1. Use the `--stylesheet` flag to attach a JSON file with variables.
-
-if (flags.f == undefined) sucide("No valid .phtml file provided!");
-if (!existsSync(flags.f)) sucide("The provided resource does not exist: " + flags.f);
-if (!lstatSync(flags.f).isFile()) sucide("Not a valid resource: " + flags.f);
-if (!flags.f.match('.phtml$')) sucide("Not a valid .phtml file: " + flags.f);
+wallOfFileVerification(flags.f);
 
 
 
 
+
+
+function wallOfFileVerification(fileName) {
+	if (fileName == undefined) sucide("No valid .phtml file provided!");
+	if (!existsSync(fileName)) sucide("The provided resource does not exist: " + fileName);
+	if (!lstatSync(fileName).isFile()) sucide("Not a valid resource: " + fileName);
+	if (!fileName.match('.phtml$')) sucide("Not a valid .phtml file: " + fileName);
+}
 
