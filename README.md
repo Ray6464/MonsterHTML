@@ -63,11 +63,28 @@ To compile a `.phtml` file to a `.html` file use:
   If you have configured an element's external file url in the `monsterHTML.config` file then you can just use `include=true` to that element import it.
 
 ## Body
+  Defaults for Monster HTML
+```
+position:relative;
+```
 
 ## Header
-The header element works just like the regular HTML5 header, but has a few extra styling attributes.
+  The header element works just like the regular HTML5 header, but has a few extra styling attributes.
+### Options
+  ```
+  sticky=true                        (default)
+  linear-gradient-color1="#00000000" (default)
+  linear-gradient-color2="#eeeeeeee"
+  gradient-direction="top-down"      (default)
+  chevron-icon-right=false           (default)
+  home-icon-right=true               (default)
+  ```
 
-### brand-logo
+### brand-logo options
+```
+  sticky=true                        (default)
+  href="./brand-logo.svg"            (default)
+```
 
 ### website-name
 
@@ -79,6 +96,27 @@ The header element works just like the regular HTML5 header, but has a few extra
 All the unique page content goes inside the `<main>` n, site logos, and search forms.
 
 Note: There must not be more than one <main> element in a document. The <main> element must NOT be a descendant of an <article>, <aside>, <footer>, <header>, or <nav> element.
+
+
+## Footer
+  The header element works just like the regular HTML5 header, but has a few extra styling attributes.
+
+### CSS
+```
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+```
+
+### Options
+  ```
+  sticky=false                       (default)
+  linear-gradient-color1="#00000000"
+  linear-gradient-color2="#eeeeeeee" (default)
+  gradient-direction="top-down"      (default)
+  ```
+
 ## Article
 
 ## Import Directives
