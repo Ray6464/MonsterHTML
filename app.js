@@ -11,10 +11,13 @@ wallOfFileVerification(PHTML_File);
 const PHTML_File_Content = readFile(PHTML_File);
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
 
-convert2HTML(JSON_Translation);
+convert2J2HFormat(JSON_Translation);
 //console.log(JSON_Translation); //remove
+console.log(convert2J2HFormat(JSON_Translation));
 
-function convert2HTML(PHTMLJSONNode) {
+//function convert2HTML
+
+function convert2J2HFormat(PHTMLJSONNode) {
   const template = {
     "<>": PHTMLJSONNode['name'],
     "value": PHTMLJSONNode['value'],
@@ -24,11 +27,11 @@ function convert2HTML(PHTMLJSONNode) {
   template.html = getInnerHTML(PHTMLJSONNode.children);
 
   //convert to html begin
-  const html = json2html.render({}, template);
-  console.log(html);
+    //const html = json2html.render({}, template);
+    //console.log(html);
   //convert to html end
 
-  console.log(template);
+  //console.log(template);
   return template;
 }
 
@@ -36,7 +39,7 @@ function convert2HTML(PHTMLJSONNode) {
 function getInnerHTML(children) {
   let innerHTML = [];
   for (let child of children) {
-    innerHTML.push(convert2HTML(child || ''));
+    innerHTML.push(convert2J2HFormat(child || ''));
   }
   return innerHTML;
 }
