@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const XmlReader = require('xml-reader');
 const flags = require('ray-flags');
 const { sucide } = require('sucide');
+const json2html = require('node-json2html');
 
 const PHTML_File =  flags.f;
 
@@ -10,7 +11,35 @@ wallOfFileVerification(PHTML_File);
 const PHTML_File_Content = readFile(PHTML_File);
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
 
-console.log(JSON_Translation); //remove
+convert2HTML(JSON_Translation);
+//console.log(JSON_Translation); //remove
+
+function convert2HTML(PHTMLJSONNode) {
+  const template = {
+    "<>": PHTMLJSONNode['name'],
+    "value": PHTMLJSONNode['value'],
+    ...PHTMLJSONNode['attributes']
+  };
+
+  template.html = getInnerHTML(PHTMLJSONNode.children);
+
+  //convert to html begin
+  const html = json2html.render({}, template);
+  console.log(html);
+  //convert to html end
+
+  console.log(template);
+  return template;
+}
+
+
+function getInnerHTML(children) {
+  let innerHTML = [];
+  for (let child of children) {
+    innerHTML.push(convert2HTML(child || ''));
+  }
+  return innerHTML;
+}
 
 
 function parseJSONFromXML(xmlContent) {
@@ -18,7 +47,7 @@ function parseJSONFromXML(xmlContent) {
 	const validXmlLines = xmlContentLines.filter(checkForInvalidXMLLines);
 	const phtmlContentAsXml = validXmlLines.join('\n'); 
 	const jsonContent = XmlReader.parseSync(phtmlContentAsXml);
-	return { content: jsonContent }
+	return jsonContent;
 }
 
 function checkForInvalidXMLLines(line) {

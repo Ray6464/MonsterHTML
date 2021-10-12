@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Ray6464/MonsterHTML#readme",
   "dependencies": {
     "fs": "^0.0.1-security",
+    "node-json2html": "^2.1.0",
     "path": "^0.12.7",
     "ray-flags": "^0.0.7",
     "sucide": "^1.0.1",
