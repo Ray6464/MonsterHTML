@@ -4,6 +4,7 @@ const XmlReader = require('xml-reader');
 const flags = require('ray-flags');
 const { sucide } = require('sucide');
 const json2html = require('node-json2html');
+const prettify = require('html-prettify');
 
 const PHTML_File =  flags.f;
 
@@ -11,11 +12,17 @@ wallOfFileVerification(PHTML_File);
 const PHTML_File_Content = readFile(PHTML_File);
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
 
-convert2J2HFormat(JSON_Translation);
+//convert2J2HFormat(JSON_Translation);
 //console.log(JSON_Translation); //remove
-console.log(convert2J2HFormat(JSON_Translation));
+//console.log(convert2J2HFormat(JSON_Translation));
+console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][0]);
+console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][1]['html'][0]['html'][1]['html'][0]['html'][0]);
+console.log(prettify(convert2HTML(convert2J2HFormat(JSON_Translation))));
 
-//function convert2HTML
+function convert2HTML(json2HTMLObj) {
+  const html = json2html.render({}, json2HTMLObj);
+  return html;
+}
 
 function convert2J2HFormat(PHTMLJSONNode) {
   const template = {
@@ -26,11 +33,6 @@ function convert2J2HFormat(PHTMLJSONNode) {
 
   template.html = getInnerHTML(PHTMLJSONNode.children);
 
-  //convert to html begin
-    //const html = json2html.render({}, template);
-    //console.log(html);
-  //convert to html end
-
   //console.log(template);
   return template;
 }
@@ -39,7 +41,13 @@ function convert2J2HFormat(PHTMLJSONNode) {
 function getInnerHTML(children) {
   let innerHTML = [];
   for (let child of children) {
-    innerHTML.push(convert2J2HFormat(child || ''));
+    let elementNode = convert2J2HFormat(child || '');
+    if (elementNode["<>"] !== '') innerHTML.push(elementNode);
+    else {
+      innerHTML = elementNode.value;
+      break;
+    }
+    //innerHTML.push(convert2J2HFormat(child || ''));
   }
   return innerHTML;
 }
