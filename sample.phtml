@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> {{ project.title }} </title>
+</head>
+<body>
+  <header include=true></header>
+  <main>
+    <accordion type=radio>
+      <fold title="Login">
+        <auto-form type="login"> project.kill </auto-form>
+      </fold>
+      <fold title="Signup">
+        <auto-form type="login">
+          <label for="studentCode"> {{project.studentCode  }}</label>
+          <input id="studentCode" placeholder="student code" />
+        </auto-form>
+      </fold>
+    </accordion>
+  </main>
+  <footer include=true></footer>
+</body>
+</html>
+

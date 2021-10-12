@@ -8,13 +8,28 @@ const json2html = require('node-json2html');
 const PHTML_File =  flags.f;
 const config = readFileSync('monsterHTML.config', 'utf8');
 const project = JSON.parse(config);
-console.log(project);
+//console.log(project);
 
 wallOfFileVerification(PHTML_File);
 const PHTML_File_Content = readFile(PHTML_File);
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
 const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
+const html_unreferenced = convert2HTML(inJson2HTMLFormat);
+const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*( *)?\}\}/g);
 
+const variables = getRequiredVariables(variable_references);
+
+console.log(variables);
+
+function getRequiredVariables(references) {
+  const required_variables = references.map(reference => reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''));
+  return required_variables;
+}
+
+// start here
+
+
+//console.log(html_unreferenced);
 
 
 //convert2J2HFormat(JSON_Translation);
@@ -25,6 +40,7 @@ const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
 //console.log(convert2HTML(convert2J2HFormat(JSON_Translation))); // reads phtml perfectly
 //console.log(JSON.stringify(convert2J2HFormat(JSON_Translation), null, 2));
 //console.log(JSON.stringify(inJson2HTMLFormat, null, 2));
+
 
 function convert2HTML(json2HTMLObj) {
   const html = json2html.render({}, json2HTMLObj);
