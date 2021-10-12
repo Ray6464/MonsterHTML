@@ -4,20 +4,27 @@ const XmlReader = require('xml-reader');
 const flags = require('ray-flags');
 const { sucide } = require('sucide');
 const json2html = require('node-json2html');
-const prettify = require('html-prettify');
 
 const PHTML_File =  flags.f;
+const config = readFileSync('monsterHTML.config', 'utf8');
+const project = JSON.parse(config);
+console.log(project);
 
 wallOfFileVerification(PHTML_File);
 const PHTML_File_Content = readFile(PHTML_File);
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
+const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
+
+
 
 //convert2J2HFormat(JSON_Translation);
 //console.log(JSON_Translation); //remove
 //console.log(convert2J2HFormat(JSON_Translation));
-console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][0]);
-console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][1]['html'][0]['html'][1]['html'][0]['html'][0]);
-console.log(prettify(convert2HTML(convert2J2HFormat(JSON_Translation))));
+//console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][0]);
+//console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][1]['html'][0]['html'][1]['html'][0]['html'][0]);
+//console.log(convert2HTML(convert2J2HFormat(JSON_Translation))); // reads phtml perfectly
+//console.log(JSON.stringify(convert2J2HFormat(JSON_Translation), null, 2));
+//console.log(JSON.stringify(inJson2HTMLFormat, null, 2));
 
 function convert2HTML(json2HTMLObj) {
   const html = json2html.render({}, json2HTMLObj);

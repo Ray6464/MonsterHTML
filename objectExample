@@ -1,0 +1,89 @@
+{
+  "<>": "html",
+  "value": "",
+  "lang": "en",
+  "html": [
+    {
+      "<>": "head",
+      "value": "",
+      "html": [
+        {
+          "<>": "title",
+          "value": "",
+          "html": " {{ project.title }} "
+        }
+      ]
+    },
+    {
+      "<>": "body",
+      "value": "",
+      "html": [
+        {
+          "<>": "header",
+          "value": "",
+          "include": "true",
+          "html": []
+        },
+        {
+          "<>": "main",
+          "value": "",
+          "html": [
+            {
+              "<>": "accordion",
+              "value": "",
+              "type": "radio",
+              "html": [
+                {
+                  "<>": "fold",
+                  "value": "",
+                  "title": "Login",
+                  "html": [
+                    {
+                      "<>": "auto-form",
+                      "value": "",
+                      "type": "login",
+                      "html": []
+                    }
+                  ]
+                },
+                {
+                  "<>": "fold",
+                  "value": "",
+                  "title": "Signup",
+                  "html": [
+                    {
+                      "<>": "auto-form",
+                      "value": "",
+                      "type": "login",
+                      "html": [
+                        {
+                          "<>": "label",
+                          "value": "",
+                          "for": "studentCode",
+                          "html": "Student Code"
+                        },
+                        {
+                          "<>": "input",
+                          "value": "",
+                          "id": "studentCode",
+                          "placeholder": "student code",
+                          "html": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "<>": "footer",
+          "value": "",
+          "include": "true",
+          "html": []
+        }
+      ]
+    }
+  ]
+}

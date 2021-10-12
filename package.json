@@ -32,7 +32,6 @@
     "xml-reader": "^2.4.3"
   },
   "devDependencies": {
-    "html-prettify": "^1.0.3",
     "prettify": "^0.1.0"
   }
 }
