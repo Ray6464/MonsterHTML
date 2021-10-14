@@ -1,3 +1,4 @@
+// imported modules
 const { readFileSync, writeFileSync, existsSync, lstatSync } = require('fs');
 const { resolve, basename } = require('path'); 
 const XmlReader = require('xml-reader');
@@ -5,13 +6,17 @@ const flags = require('ray-flags');
 const { sucide } = require('sucide');
 const json2html = require('node-json2html');
 
+// software modules
+const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
+const { writeHTMLFile } = require('./modules/fringe-modules.js');
+
 const PHTML_File =  flags.f;
 const config = readFileSync('monsterHTML.config', 'utf8');
 const project = JSON.parse(config);
 //console.log(project);
 
-wallOfFileVerification(PHTML_File);
-const PHTML_File_Content = readFile(PHTML_File);
+verifyValidPHTMLFile(PHTML_File);
+const PHTML_File_Content = readFileSync(PHTML_File, 'utf8');
 const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
 const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
 const html_unreferenced = convert2HTML(inJson2HTMLFormat);
@@ -35,14 +40,8 @@ const variables = getRequiredVariables(variable_references);
 //console.log(html_unreferenced);
 
 //console.log(parsePHTMLVariables(html_unreferenced));
-writeHTMLFile(parsedPHTMLVariables(html_unreferenced));
+writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced));
 
-
-function writeHTMLFile(HTML) {
-    const outFileName = basename(flags.f, '.phtml') + '.html';
-    //console.log(HTML, outFileName);
-    writeFileSync(outFileName, HTML);
-}
 
 function parsedPHTMLVariables(unreferencedHTML) {
   let outputHTML = unreferencedHTML;
@@ -110,17 +109,5 @@ function checkForInvalidXMLLines(line) {
   if (line.includes("DOCTYPE")) return false;
   if (line.includes("meta")) return false;
   return true;
-}
-
-function readFile(fileURL) {
-  return readFileSync(fileURL, 'utf8');
-}
-
-function wallOfFileVerification(fileName) {
-	// Verifies that the input file is a valid .phtml file
-	if (fileName == undefined) sucide("No valid .phtml file provided!");
-	if (!existsSync(fileName)) sucide("The provided resource does not exist: " + fileName);
-	if (!lstatSync(fileName).isFile()) sucide("Not a valid resource: " + fileName);
-	if (!fileName.match('.phtml$')) sucide("Not a valid .phtml file: " + fileName);
 }
 
