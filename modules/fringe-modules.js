@@ -19,5 +19,18 @@ module.exports = {
     const outFileName = `${basename(PHTMLFileName, '.phtml')}.html`;
     writeFileSync(outFileName, HTML);
   },
+  preetifyXML: function(XML) {
+    let indentation = -1;
+    let output = ["<!--  preetifyXML package module applied  -->"];
+    for (let line of XML.split('>')){
+      if (/\<[a-zA-Z]+/.test(line)) indentation++;
+      else if (/\<\/[a-zA-Z]+/.test(line)) {
+	prepend = '\n';
+        indentation--;
+      }
+      output.push(`${'  '.repeat(indentation)}${line}`);
+    }
+    return output.join('>\n');
+  }
 }
 

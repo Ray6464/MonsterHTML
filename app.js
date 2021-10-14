@@ -8,7 +8,8 @@ const json2html = require('node-json2html');
 
 // software modules
 const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
-const { writeHTMLFile } = require('./modules/fringe-modules.js');
+const { writeHTMLFile, preetifyXML } = require('./modules/fringe-modules.js');
+const { parseJSONFromXML/*, checkForInvalidXMLLines*/ } = require('./modules/syntax.js');
 
 const PHTML_File =  flags.f;
 const config = readFileSync('monsterHTML.config', 'utf8');
@@ -17,7 +18,9 @@ const project = JSON.parse(config);
 
 verifyValidPHTMLFile(PHTML_File);
 const PHTML_File_Content = readFileSync(PHTML_File, 'utf8');
-const JSON_Translation = parseJSONFromXML(PHTML_File_Content);
+const parsedContent = parseJSONFromXML(PHTML_File_Content);
+const JSON_Translation = parsedContent.json;
+console.log(parsedContent.invalidLines);
 const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
 const html_unreferenced = convert2HTML(inJson2HTMLFormat);
 const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*( *)?\}\}/g);
@@ -40,8 +43,8 @@ const variables = getRequiredVariables(variable_references);
 //console.log(html_unreferenced);
 
 //console.log(parsePHTMLVariables(html_unreferenced));
-writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced));
-
+//writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced));
+writeHTMLFile(PHTML_File, preetifyXML(parsedPHTMLVariables(html_unreferenced)));
 
 function parsedPHTMLVariables(unreferencedHTML) {
   let outputHTML = unreferencedHTML;
@@ -92,22 +95,5 @@ function getInnerHTML(children) {
     //innerHTML.push(convert2J2HFormat(child || ''));
   }
   return innerHTML;
-}
-
-
-function parseJSONFromXML(xmlContent) {
-	xmlContentLines = xmlContent.split('\n');
-	const validXmlLines = xmlContentLines.filter(checkForInvalidXMLLines);
-	const phtmlContentAsXml = validXmlLines.join('\n'); 
-	const jsonContent = XmlReader.parseSync(phtmlContentAsXml);
-	return jsonContent;
-}
-
-function checkForInvalidXMLLines(line) {
-  // Keeping every line
-  // To remove a like use `if (line.includes(STRING)) return false;`
-  if (line.includes("DOCTYPE")) return false;
-  if (line.includes("meta")) return false;
-  return true;
 }
 
