@@ -122,6 +122,7 @@ Note: There must not be more than one <main> element in a document. The <main> e
 ## Import Directives
 
 ## Variables
+MonsterHTML variables are declared in the 'monsterHTML.config' file. Only strings and numbers are supported yet! To access them use {{ project.variableName }}. Only camelCasing is supported.
 
 ## Conditionals
 

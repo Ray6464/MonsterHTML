@@ -1,5 +1,5 @@
 const { readFileSync, writeFileSync, existsSync, lstatSync } = require('fs');
-const { resolve } = require('path'); 
+const { resolve, basename } = require('path'); 
 const XmlReader = require('xml-reader');
 const flags = require('ray-flags');
 const { sucide } = require('sucide');
@@ -19,19 +19,8 @@ const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*(
 
 const variables = getRequiredVariables(variable_references);
 
-console.log(variables);
-
-function getRequiredVariables(references) {
-  const required_variables = references.map(reference => reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''));
-  return required_variables;
-}
-
-// start here
-
-
+//console.log(variables);
 //console.log(html_unreferenced);
-
-
 //convert2J2HFormat(JSON_Translation);
 //console.log(JSON_Translation); //remove
 //console.log(convert2J2HFormat(JSON_Translation));
@@ -41,6 +30,37 @@ function getRequiredVariables(references) {
 //console.log(JSON.stringify(convert2J2HFormat(JSON_Translation), null, 2));
 //console.log(JSON.stringify(inJson2HTMLFormat, null, 2));
 
+//console.log(variable_references);
+//console.log(variables);
+//console.log(html_unreferenced);
+
+//console.log(parsePHTMLVariables(html_unreferenced));
+writeHTMLFile(parsedPHTMLVariables(html_unreferenced));
+
+
+function writeHTMLFile(HTML) {
+    const outFileName = basename(flags.f, '.phtml') + '.html';
+    //console.log(HTML, outFileName);
+    writeFileSync(outFileName, HTML);
+}
+
+function parsedPHTMLVariables(unreferencedHTML) {
+  let outputHTML = unreferencedHTML;
+  for (let variable of variables) {
+    outputHTML = outputHTML.replace(variable.reference, project[variable.namespace]);
+  }
+  return outputHTML;
+}
+
+function getRequiredVariables(references) {
+  const required_variables = references.map(reference => {
+    return {
+      namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
+      reference: reference
+    }
+  });
+  return required_variables;
+}
 
 function convert2HTML(json2HTMLObj) {
   const html = json2html.render({}, json2HTMLObj);
