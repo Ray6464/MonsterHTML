@@ -9,7 +9,7 @@ const json2html = require('node-json2html');
 // software modules
 const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
 const { writeHTMLFile, preetifyXML } = require('./modules/fringe-modules.js');
-const { parseJSONFromXML/*, checkForInvalidXMLLines*/, parsedPHTMLVariables } = require('./modules/syntax.js');
+const { parseJSONFromXML/*, checkForInvalidXMLLines*/, parsedPHTMLVariables, getRequiredVariables } = require('./modules/syntax.js');
 
 const PHTML_File =  flags.f;
 const config = readFileSync('monsterHTML.config', 'utf8');
@@ -45,16 +45,6 @@ const variables = getRequiredVariables(variable_references);
 //console.log(parsePHTMLVariables(html_unreferenced));
 //writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced, variables, project));
 writeHTMLFile(PHTML_File, preetifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
-
-function getRequiredVariables(references) {
-  const required_variables = references.map(reference => {
-    return {
-      namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
-      reference: reference
-    }
-  });
-  return required_variables;
-}
 
 function convert2HTML(json2HTMLObj) {
   const html = json2html.render({}, json2HTMLObj);

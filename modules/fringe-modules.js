@@ -31,6 +31,6 @@ module.exports = {
       output.push(`${'  '.repeat(indentation)}${line}`);
     }
     return output.join('>\n');
-  }
+  },
 }
 

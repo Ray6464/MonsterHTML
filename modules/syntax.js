@@ -45,6 +45,15 @@ module.exports = {
       outputHTML = outputHTML.replace(variable.reference, project_data[variable.namespace]);
     }
     return outputHTML;
+  },
+  getRequiredVariables: function(references) {
+    const required_variables = references.map(reference => {
+      return {
+        namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
+        reference: reference
+      }
+    });
+    return required_variables;
   }
 }
 
