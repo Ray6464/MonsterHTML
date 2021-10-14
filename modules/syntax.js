@@ -38,5 +38,13 @@ module.exports = {
     const jsonContent = XmlReader.parseSync(phtmlContentAsXml);
     return { json: jsonContent, invalidLines: invalidXmlLines };
   },
-  checkForInvalidXMLLines: checkForInvalidXMLLines
+  checkForInvalidXMLLines: checkForInvalidXMLLines,
+  parsedPHTMLVariables: function(unreferencedHTML, variables_present, project_data) {
+    let outputHTML = unreferencedHTML;
+    for (let variable of variables_present) {
+      outputHTML = outputHTML.replace(variable.reference, project_data[variable.namespace]);
+    }
+    return outputHTML;
+  }
 }
+
