@@ -8,7 +8,7 @@ const json2html = require('node-json2html');
 
 // software modules
 const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
-const { writeHTMLFile, prettifyXML } = require('./modules/fringe-modules.js');
+const { writeHTMLFile, prettifyXML, convert2HTML } = require('./modules/fringe-modules.js');
 const { parseJSONFromXML/*, checkForInvalidXMLLines*/, parsedPHTMLVariables, getRequiredVariables } = require('./modules/syntax.js');
 
 const PHTML_File =  flags.f;
@@ -18,9 +18,16 @@ const project = JSON.parse(config);
 verifyValidPHTMLFile(PHTML_File);
 const PHTML_File_Content = readFileSync(PHTML_File, 'utf8');
 /* CONTENT object has all our PHTML file info */
-const CONTENT = parseJSONFromXML(PHTML_File_Content); // .json .invalidLines
-// Our PHTML file in JSON
+const CONTENT = parseJSONFromXML(PHTML_File_Content);
 CONTENT.inJSON2HTMLFormat = convert2J2HFormat(CONTENT.json);
+
+console.log(CONTENT);
+
+
+/*
+// Uncomment if needed later
+
+// Our PHTML file in JSON
 // convert to html without variable placement from monsterHTML.config
 const html_unreferenced = convert2HTML(CONTENT.inJSON2HTMLFormat);
 // variable names used in the provided phtml file
@@ -28,35 +35,15 @@ const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*(
 // variable object
 const variables = getRequiredVariables(variable_references);
 
+console.log(prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
+writeHTMLFile(PHTML_File, prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
+*/
+
+
 const SYNTAX_FILE = __dirname + "/elements.json";
 const ELEMENTS_SYNTAX_FILE_CONTENT = readFileSync(SYNTAX_FILE, 'utf8');
 const syntax = JSON.parse(ELEMENTS_SYNTAX_FILE_CONTENT);
 
-//console.log(variables);
-//console.log(html_unreferenced);
-//convert2J2HFormat(JSON_Translation);
-//console.log(JSON_Translation); //remove
-//console.log(convert2J2HFormat(JSON_Translation));
-//console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][0]);
-//console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][1]['html'][0]['html'][1]['html'][0]['html'][0]);
-//console.log(convert2HTML(convert2J2HFormat(JSON_Translation))); // reads phtml perfectly
-//console.log(JSON.stringify(convert2J2HFormat(JSON_Translation), null, 2));
-//console.log(JSON.stringify(CONTENT.inJson2HTMLFormat, null, 2));
-
-//console.log(variable_references);
-//console.log(variables);
-//console.log(html_unreferenced);
-
-//console.log(parsePHTMLVariables(html_unreferenced));
-//writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced, variables, project));
-
-console.log(prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
-writeHTMLFile(PHTML_File, prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
-
-function convert2HTML(json2HTMLObj) {
-  const html = json2html.render({}, json2HTMLObj);
-  return html;
-}
 
 function convert2J2HFormat(PHTMLJSONNode) {
   const template = {

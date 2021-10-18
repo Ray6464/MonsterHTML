@@ -55,5 +55,5 @@ module.exports = {
     });
     return required_variables;
   }
-}
+ }
 

@@ -4,7 +4,7 @@ const { resolve, basename } = require('path');
 //const XmlReader = require('xml-reader');
 //const flags = require('ray-flags');
 //const { sucide } = require('sucide');
-//const json2html = require('node-json2html');
+const json2html = require('node-json2html');
 
 // software modules
 //const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
@@ -33,5 +33,9 @@ module.exports = {
     }
     return output.join('\n');
   },
+  convert2HTML: function(json2HTMLObj) {
+    const html = json2html.render({}, json2HTMLObj);
+    return html;
+  }
 }
 
