@@ -1,0 +1,96 @@
+{
+  "accordion": {
+	  "phtml": {
+		  "type": ["radio", "checkbox"],
+		  "id": "idString",
+		  "childIdScheme": "idSchemeString",
+		  "childNameScheme": "nameSchemeString",
+		  "innerHTML": "code"
+	  },
+	  "html": [
+		  {
+			  "element": "div",
+			  "class": "collapse",
+			  "id": "${{id}}",
+			  "innerHTML": "${{innerHTML}}",
+			  "convey": {
+				  "type": "${{type}}",
+				  "id": "${{childIdScheme}}${{COUNT}}",
+				  "name": "${{childNameScheme}}${{COUNT}}"
+			  }
+		  }
+	  ]
+  },
+  "fold": {
+	  "phtml": {
+		  "title": "titleString",
+		  "innerHTML": "code",
+		  "checked": [false, true],
+		  "inherit": {
+		    "type": "typeString",
+		    "id": "idSchemeStringUnique",
+		    "name": "nameSchemeStringUnique"
+		  }
+	  },
+	  "html": [
+		  {
+			  "element": null,
+			  "innerHTML": "${{innerHTML}}",
+			  "convey": {
+				  "title": "${{title}}",
+				  "type": "${{inherit.type}}",
+				  "id": "${{inherit.id}}",
+				  "name": "${{inherit.name}}",
+				  "checked": "${{checked}}"
+			  }
+		  }
+	  ]
+  },
+  "auto-form": {
+	  "phtml": {
+		  "type": ["info", "login"],
+		  "innerHTML": "code",
+		  "inherit": {
+			  "title": "titleString",
+			  "type": "typeString",
+			  "id": "idString",
+			  "name": "nameString",
+			  "checked": false
+
+		  }
+	  },
+	  "html": [
+		  {
+			  "validForTypes": ["login", "info", "signup"],
+			  "element": "input",
+			  "checked": "${{inherited.checked}}",
+			  "id": "${{inherit.id}}",
+			  "name": "${{inherit.name}}",
+			  "aria-hidden": true
+		  },
+		  {
+			  "validForTypes": ["login", "info", "signup"],
+			  "element": "label",
+			  "innerHTML": "${{inherit.title}}",
+			  "for": "${{inherit.id}}",
+			  "aria-hidden": true
+		  },
+		  {
+			  "validForTypes": ["login", "info", "signup"],
+			  "element": null,
+			  "innerHTML": "${{innerHTML}}"
+		  }
+	  ]
+  }
+}
+
+
+
+
+
+
+
+
+
+
+

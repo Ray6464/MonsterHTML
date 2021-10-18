@@ -27,6 +27,11 @@ const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*(
 
 const variables = getRequiredVariables(variable_references);
 
+const SYNTAX_FILE = __dirname + "/elements.json";
+const ELEMENTS_SYNTAX_FILE_CONTENT = readFileSync(SYNTAX_FILE, 'utf8');
+const parsedSyntaxJSON = JSON.parse(ELEMENTS_SYNTAX_FILE_CONTENT);
+console.log(parsedSyntaxJSON);
+
 //console.log(variables);
 //console.log(html_unreferenced);
 //convert2J2HFormat(JSON_Translation);
@@ -44,6 +49,8 @@ const variables = getRequiredVariables(variable_references);
 
 //console.log(parsePHTMLVariables(html_unreferenced));
 //writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced, variables, project));
+
+console.log(prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
 writeHTMLFile(PHTML_File, prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
 
 function convert2HTML(json2HTMLObj) {
