@@ -14,23 +14,23 @@ const { parseJSONFromXML/*, checkForInvalidXMLLines*/, parsedPHTMLVariables, get
 const PHTML_File =  flags.f;
 const config = readFileSync('monsterHTML.config', 'utf8');
 const project = JSON.parse(config);
-//console.log(project);
 
 verifyValidPHTMLFile(PHTML_File);
 const PHTML_File_Content = readFileSync(PHTML_File, 'utf8');
-const parsedContent = parseJSONFromXML(PHTML_File_Content);
-const JSON_Translation = parsedContent.json;
-console.log(parsedContent.invalidLines);
-const inJson2HTMLFormat = convert2J2HFormat(JSON_Translation);
-const html_unreferenced = convert2HTML(inJson2HTMLFormat);
+/* CONTENT object has all our PHTML file info */
+const CONTENT = parseJSONFromXML(PHTML_File_Content); // .json .invalidLines
+// Our PHTML file in JSON
+CONTENT.inJSON2HTMLFormat = convert2J2HFormat(CONTENT.json);
+// convert to html without variable placement from monsterHTML.config
+const html_unreferenced = convert2HTML(CONTENT.inJSON2HTMLFormat);
+// variable names used in the provided phtml file
 const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*( *)?\}\}/g);
-
+// variable object
 const variables = getRequiredVariables(variable_references);
 
 const SYNTAX_FILE = __dirname + "/elements.json";
 const ELEMENTS_SYNTAX_FILE_CONTENT = readFileSync(SYNTAX_FILE, 'utf8');
-const parsedSyntaxJSON = JSON.parse(ELEMENTS_SYNTAX_FILE_CONTENT);
-console.log(parsedSyntaxJSON);
+const syntax = JSON.parse(ELEMENTS_SYNTAX_FILE_CONTENT);
 
 //console.log(variables);
 //console.log(html_unreferenced);
@@ -41,7 +41,7 @@ console.log(parsedSyntaxJSON);
 //console.log(convert2J2HFormat(JSON_Translation)['html'][1]['html'][1]['html'][0]['html'][1]['html'][0]['html'][0]);
 //console.log(convert2HTML(convert2J2HFormat(JSON_Translation))); // reads phtml perfectly
 //console.log(JSON.stringify(convert2J2HFormat(JSON_Translation), null, 2));
-//console.log(JSON.stringify(inJson2HTMLFormat, null, 2));
+//console.log(JSON.stringify(CONTENT.inJson2HTMLFormat, null, 2));
 
 //console.log(variable_references);
 //console.log(variables);
