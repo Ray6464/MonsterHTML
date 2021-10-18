@@ -14,6 +14,31 @@ const json2html = require('node-json2html');
 //const project = JSON.parse(config);
 //console.log(project);
 
+function convert2J2HFormat(PHTMLJSONNode) {
+  const template = {
+    "<>": PHTMLJSONNode['name'],
+    "value": PHTMLJSONNode['value'],
+    ...PHTMLJSONNode['attributes']
+  };
+  template.html = getInnerHTML(PHTMLJSONNode.children);
+  //console.log(template);
+  return template;
+}
+
+function getInnerHTML(children) {
+  let innerHTML = [];
+  for (let child of children) {
+    let elementNode = convert2J2HFormat(child || '');
+    if (elementNode["<>"] !== '') innerHTML.push(elementNode);
+    else {
+      innerHTML = elementNode.value;
+      break;
+    }
+    //innerHTML.push(convert2J2HFormat(child || ''));
+  }
+  return innerHTML;
+}
+
 module.exports = {
   writeHTMLFile: function(PHTMLFileName, HTML) {
     const outFileName = `${basename(PHTMLFileName, '.phtml')}.html`;
@@ -36,6 +61,8 @@ module.exports = {
   convert2HTML: function(json2HTMLObj) {
     const html = json2html.render({}, json2HTMLObj);
     return html;
-  }
+  },
+  convert2J2HFormat: convert2J2HFormat,
+  getInnerHTML: getInnerHTML 
 }
 

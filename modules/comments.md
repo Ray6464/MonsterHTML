@@ -17,3 +17,22 @@
 //console.log(parsePHTMLVariables(html_unreferenced));
 //writeHTMLFile(PHTML_File, parsedPHTMLVariables(html_unreferenced, variables, project));
 
+--------------------------
+
+/*
+// Uncomment if needed later
+
+// Our PHTML file in JSON
+// convert to html without variable placement from monsterHTML.config
+const html_unreferenced = convert2HTML(CONTENT.inJSON2HTMLFormat);
+// variable names used in the provided phtml file
+const variable_references = html_unreferenced.match(/\{\{( *)?project.[a-zA-Z]*( *)?\}\}/g);
+// variable object
+const variables = getRequiredVariables(variable_references);
+
+console.log(prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
+writeHTMLFile(PHTML_File, prettifyXML(parsedPHTMLVariables(html_unreferenced, variables, project)));
+*/
+
+
+
