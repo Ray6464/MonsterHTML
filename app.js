@@ -9,11 +9,11 @@ const json2html = require('node-json2html');
 // software modules
 const verifyValidPHTMLFile = require('./modules/file-verification.js'); 
 const { writeHTMLFile, prettifyXML, convert2HTML, convert2J2HFormat, getInnerHTML } = require('./modules/fringe-modules.js');
-const { parseJSONFromXML/*, checkForInvalidXMLLines*/, parsedPHTMLVariables, getRequiredVariables } = require('./modules/syntax.js');
+const { parseJSONFromXML, parsePHTMLVariables } = require('./modules/syntax.js');
 
 const PHTML_File =  flags.f;
-const config = readFileSync('monsterHTML.config', 'utf8');
-const project = JSON.parse(config);
+//const config = readFileSync('monsterHTML.config', 'utf8');
+//const project = JSON.parse(config);
 
 verifyValidPHTMLFile(PHTML_File);
 const PHTML_File_Content = readFileSync(PHTML_File, 'utf8');
@@ -23,9 +23,7 @@ CONTENT.inJSON2HTMLFormat = convert2J2HFormat(CONTENT.json);
 
 //console.log(CONTENT);
 
-const SYNTAX_FILE = __dirname + "/elements.json";
-const ELEMENTS_SYNTAX_FILE_CONTENT = readFileSync(SYNTAX_FILE, 'utf8');
-const syntax = JSON.parse(ELEMENTS_SYNTAX_FILE_CONTENT);
+const syntax = require('./modules/elements.js');
 
 console.log("Raw code: ", CONTENT.inJSON2HTMLFormat);
 const COMPILED_CODE = compile(CONTENT.inJSON2HTMLFormat, syntax);
@@ -55,25 +53,5 @@ function parseHTML(PHTMLElement, syntaxDataset){
   if (typeof(element["html"]) == "string") element["html"] = parsePHTMLVariables(element["html"]);
   else element["html"] = swapPHTMLElementsWithHTML(PHTMLElement["html"], syntaxDataset); //innerHTML
   return element; //here
-}
-
-
-function parsePHTMLVariables(string){
-  const variableReferenceRegex = /\{\{( )*?project.[a-zA-Z]+( )*\}\}/g;
-  const variableReferences = string.match(variableReferenceRegex) || [];
-  const variables = variableReferences.map(reference => {
-    const variableData = {
-      namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
-      reference: reference
-    }
-      variableData.value = project[variableData.namespace];
-      return variableData;
-  });
-
-  let parsedString = string;
-  for (let variable of variables) {
-    parsedString = parsedString.replace(variable.reference, variable.value);
-  }
-  return parsedString;
 }
 

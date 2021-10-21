@@ -1,5 +1,5 @@
 // imported modules
-//const { readFileSync, writeFileSync, existsSync, lstatSync } = require('fs');
+const { readFileSync/*, writeFileSync, existsSync, lstatSync*/ } = require('fs');
 //const { resolve, basename } = require('path'); 
 const XmlReader = require('xml-reader');
 //const flags = require('ray-flags');
@@ -11,9 +11,11 @@ const XmlReader = require('xml-reader');
 //const { writeHTMLFile } = require('./modules/fringe-modules.js');
 
 //const PHTML_File =  flags.f;
-//const config = readFileSync('monsterHTML.config', 'utf8');
-//const project = JSON.parse(config);
+const config = readFileSync('monsterHTML.config', 'utf8');
+const project = JSON.parse(config);
+
 //console.log(project);
+
 
 function checkForInvalidXMLLines(line) {
   // Keeping every line
@@ -28,6 +30,25 @@ function checkForInvalidXMLLines(line) {
   return true;
 }
 
+function parsePHTMLVariables(string){
+  const variableReferenceRegex = /\{\{( )*?project.[a-zA-Z]+( )*\}\}/g;
+  const variableReferences = string.match(variableReferenceRegex) || [];
+  const variables = variableReferences.map(reference => {
+    const variableData = {
+      namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
+      reference: reference
+    }
+      variableData.value = project[variableData.namespace];
+      return variableData;
+  });
+
+  let parsedString = string;
+  for (let variable of variables) {
+    parsedString = parsedString.replace(variable.reference, variable.value);
+  }
+  return parsedString;
+}
+
 
 module.exports = {
   parseJSONFromXML: function(xmlContent) {
@@ -39,21 +60,13 @@ module.exports = {
     return { json: jsonContent, invalidLines: invalidXmlLines };
   },
   checkForInvalidXMLLines: checkForInvalidXMLLines,
-  parsedPHTMLVariables: function(unreferencedHTML, variables_present, project_data) {
+/*  parsedPHTMLVariables: function(unreferencedHTML, variables_present, project_data) {
     let outputHTML = unreferencedHTML;
     for (let variable of variables_present) {
       outputHTML = outputHTML.replace(variable.reference, project_data[variable.namespace]);
     }
     return outputHTML;
-  },
-  getRequiredVariables: function(references) {
-    const required_variables = references.map(reference => {
-      return {
-        namespace: reference.replace(/\{\{( *)?project./, '').replace(/( *)?\}\}/,''),
-        reference: reference
-      }
-    });
-    return required_variables;
-  }
- }
+  },*/
+  parsePHTMLVariables: parsePHTMLVariables
+}
 

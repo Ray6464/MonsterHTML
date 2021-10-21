@@ -1,4 +1,4 @@
-{
+module.exports = {
   "accordion": {
 	  "phtml": {
 		  "type": ["radio", "checkbox"],
@@ -83,14 +83,4 @@
 	  ]
   }
 }
-
-
-
-
-
-
-
-
-
-
 
