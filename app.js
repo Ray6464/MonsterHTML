@@ -35,23 +35,42 @@ console.log("Compiled code:", JSON.stringify(COMPILED_CODE, null, 2));
 //writeFileSync("ContentInJSON2HTMLFormat.json", JSON.stringify(CONTENT.inJSON2HTMLFormat, null, 2));
 
 function compile(PHTMLObject, syntaxDataset) {
-  const compiledHTML = swapPHTMLElementsWithHTML(PHTMLObject, syntaxDataset);
+  const compiledHTML = swapPHTMLElementsWithHTML(PHTMLObject, {}, syntaxDataset);
   return compiledHTML;
 }
 
-function swapPHTMLElementsWithHTML(PHTMLElement, syntaxArrangement){
-
+function swapPHTMLElementsWithHTML(PHTMLElement, PARENT, syntaxArrangement){
   let elements = PHTMLElement;
   if (!Array.isArray(PHTMLElement)) elements = [elements];
-  elements = elements.map(element => parseHTML(element, syntaxArrangement));
+  //elements = elements.map(element => parseHTML(element, syntaxArrangement));
+  elements = elements.map(element => parseElement(element, PARENT, syntaxArrangement));
   return elements;
 }
 
-function parseHTML(PHTMLElement, syntaxDataset){
+function parseInnerHTML(PHTMLElement, syntaxDataset){
   const element = {...PHTMLElement};
+  const {html, ...dryElement} = element;
+  let innerHTML = "";
   /* dealing with innerHTML through the following conditional*/
-  if (typeof(element["html"]) == "string") element["html"] = parsePHTMLVariables(element["html"]);
-  else element["html"] = swapPHTMLElementsWithHTML(PHTMLElement["html"], syntaxDataset); //innerHTML
-  return element; //here
+  if (typeof(element["html"]) == "string") innerHTML = parsePHTMLVariables(element["html"]);
+  else innerHTML = swapPHTMLElementsWithHTML(PHTMLElement["html"], dryElement, syntaxDataset); //innerHTML
+  element["html"] = innerHTML;
+
+  return element; //here add a machanism for inheritance
+}
+
+function parseElement(PHTML_ELEMENT, INHERITANCE, SYNTAX){
+  let parsedELEMENT = parseInnerHTML(PHTML_ELEMENT, SYNTAX);
+  console.log({"parseElement": parsedELEMENT,
+	  "parseElementInheritance": INHERITANCE}); 
+  for (let element of Object.keys(SYNTAX)){/*
+    if (PHTML_ELEMENT["<>"] == element) { // if element is a valid PHTML element
+      parsedELEMENT = SYNTAX[element].html.map(ele => {
+        ele. // here: parse elements arrording to elements.js syntax, preserve the syntax of the syntax file languagge
+      });
+    }*/
+  }
+
+  return parsedELEMENT;
 }
 
